@@ -20,7 +20,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', "test_secret_key")
+#SECRET_KEY = os.environ.get('SECRET_KEY', "test_secret_key")
+SECRET_KEY = 'NEWRANDOMKEY'
+OLD_SECRET_KEY = os.environ.get('SECRET_KEY', "test_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -36,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rotatesecretkey',
 ]
 
 MIDDLEWARE = [
@@ -43,11 +46,13 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'rotatesecretkey.middleware.RotateAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+SESSION_ENGINE = 'rotatesecretkey.sessions'
+SILENCED_SYSTEM_CHECKS = ['admin.E408',]
 ROOT_URLCONF = 'django_likes.urls'
 
 TEMPLATES = [
