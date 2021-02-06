@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class='col-sm-6 col-sm-offset-3'>
+    <h1>The Breaking Bad API</h1>
+
+
+<div class="row">
+  <div id="content" class="col-sm-12">
+
+  </div>
+
+</div>
+
+
+</div>
+<script>
+  const api="https://breakingbadapi.com/api/characters";
+  async function getData(){
+  const response = await fetch(api)
+  const data = await response.json()
+  printData(data)
+  }
+  function printData(data){
+    const  content = document.querySelector("#content")
+i=0;
+console.log(data[0])
+    {% for obj in characters %}
+
+content.innerHTML+=` <div class="caption post-detail-item"><h3><a href="{% url 'posts:detail' obj.slug%}"> ${data[i].name} </a></h3></div>`
+content.innerHTML+=`<div class="thumbnail"><img src='${data[i].img}' class='img-responsive' /></div>`
+i++
+    {% endfor %}
+  }
+  getData()
+
+</script>
+{% endblock content %}

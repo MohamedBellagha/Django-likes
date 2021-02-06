@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Django Likes</title>
+    {% include 'base/js.html' %}
+    {% include 'base/css.html' %}
+    {% include 'base/bootstrap_defaults.html' %}
+  </head>
+  <body>
+    <div class='container'>
+    {% block content %}
+    {% endblock content %}
+    </div>
+
+
+    <script>
+    $(document).ready(function(){
+    	function updateText(btn, newCount){
+    	btn.text(newCount)
+    	}
+    	$("#like-btn").click(function(e){
+    		e.preventDefault()
+    		var this_ = $(this)
+    		var likeUrl = this_.attr("data-href")
+    		var likeCount = $("#likeCount")
+    		if (likeUrl){
+    			 $.ajax({
+    				url: likeUrl,
+    				method: "GET",
+    				data: {},
+    				cache: false,
+    				success: function(data){
+    					if (data.liked){
+    							$('#like_ico').attr('style', "background-color: coral;");
+    							$('#like-btn').attr('title', "DisLike");
+    							updateText(likeCount, data.count)
+    					} else {
+    							$('#like_ico').attr("style", "background-color: bisque;");
+    							$('#like-btn').attr('title', "Like");
+    							updateText(likeCount, data.count)
+    					}
+    				}, error: function(error){
+    					console.log("error")
+    				}
+    			})
+    		}
+    	})
+    });
+    </script>
+  </body>
+</html>

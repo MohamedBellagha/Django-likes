@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class='col-sm-6 col-sm-offset-3'>
+<div class='row'>
+<div id="content" class='col-sm-12 '>
+
+
+</div>
+
+<div class="tg-collectioncounter">
+{% if request.user.is_authenticated %}
+		{% if view.is_liked %}
+ <a id='like-btn' data-href='{{ object.get_api_like_url }}' title="DisLike">
+	 <div id="like_ico" class="tg-collectioncountericon" style="background-color: coral;">
+		<i class="fas fa-thumbs-up" style="margin:10px 0px 0px 12px;    font-size: 200%;"></i>
+	</div>
+</a>
+	<div class="tg-titlepluscounter">
+		<h3 id="likeCount" data-from="0" data-to="3121242" data-speed="8000" data-refresh-interval="50">{{ object.likes.count }}</h3>
+	</div>
+		{% else %}
+ <a id='like-btn' data-href='{{ object.get_api_like_url }}' title="Like">
+	<div id="like_ico" class="tg-collectioncountericon" style="background-color: bisque;">
+		<i class="fas fa-thumbs-up" style="margin: 10px 0px 0px 12px;    font-size: 200%;"></i>
+	</div>
+</a>
+	<div class="tg-titlepluscounter">
+		<h3 id="likeCount" data-from="0" data-to="3121242" data-speed="8000" data-refresh-interval="50">{{ object.likes.count }}</h3>
+	</div>
+		{% endif %}
+{% else %}
+ <a title="Like" onclick="alert('Sorry, you need to log in first.');">
+	<div class="tg-collectioncountericon" style="background-color: bisque;">
+		<i class="fas fa-thumbs-up" style="margin: 10px 0px 0px 12px;    font-size: 200%;"></i>
+	</div>
+</a>
+	<div class="tg-titlepluscounter">
+		<h3 id="likeCount" data-from="0" data-to="3121242" data-speed="8000" data-refresh-interval="50">{{ object.likes.count }}</h3>
+	</div>
+{% endif %}
+</div>
+<div id="content1" class='col-sm-6 col-sm-offset-3'>
+
+</div>
+  <div id="content2" class='col-sm-6 col-sm-offset-3'>
+      </div>
+		</div>
+		</div>
+
+<script type="text/javascript">
+	window.onload=(function() {
+	 async function getData(){
+	const api="https://breakingbadapi.com/api/characters";
+	const response = await fetch(api)
+	const data = await response.json()
+	printData(data)
+}
+	function printData(data){
+		const  content = document.querySelector("#content")
+	const  content1 = document.querySelector("#content1")
+	const  content2 = document.querySelector("#content2")
+	content.innerHTML+=`<img src='${data[ {{ object.id }}-1 ].img}' class='img-responsive' /> `
+	content1.innerHTML+=`<h1> ${data[{{object.id }}-1 ].name} </h1>`
+	content2.innerHTML+=`<h4>${data[{{object.id }}-1 ].occupation}</h4>`
+	content2.innerHTML+=`<h2>nickname : ${data[{{object.id }}-1 ].nickname}</h2>`
+	}
+		getData();
+
+});
+</script>
+
+
+{% endblock content %}
